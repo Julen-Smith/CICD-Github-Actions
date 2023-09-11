@@ -48,6 +48,13 @@ La versión con la que quiero tirar y homogenizar mis pruebas
 El resto nada, comandos necesarios ordenaditos on sus tags y por supuesto la ejecución de las pruebas.
 
 Resolución
+En la pestaña actions se ve que he realizado varios pusheos ya mientras generaba el readme
+![Alt text](context/image-7.png)
+Si vemos el último sin entrar en mucho detalle se ve que el Job ha corrido correctamente
+![Alt text](context/image-8.png)
+En cambio si pusheo con un error de código diciendole que compruebe que el factorial de 5 es 5000
+
+
 
 ## CD
 
