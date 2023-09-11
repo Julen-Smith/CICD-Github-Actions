@@ -6,9 +6,12 @@ Código
 
 El código, es un código simple de unas pruebas unitarias donde se comprueba que el número factorial devuelto es correcto y que se controla el error de input.
 Factorial
+
 ![Alt text](context/image.png)
+
 Pruebas
-![Alt text](image-1.png)
+
+![Alt text](context/image-1.png)
 
 CI
 En esta parte de integración continua lo único que vamos a generar es que cuando hagamos un push en una maquina ubuntu se lance nuestra clase de pruebas o cualquier script que controle la calidad del codigo (al menos ese es el fin).
@@ -17,13 +20,15 @@ Quizá este sea no sea el mejor ejemplo, pero se podría que generar que se pase
 python-ci.yml
 
 Aqui lo único que estamos mencionando son las ramas que van a tener afectación y que acciones van a triggerear las pruebas.
-![Alt text](image-2.png)
+
+![Alt text](context/image-2.png)
 
 En este caso voy a crear un job que va buildear y testear la aplicación.
 Reitero en que quizá al ser una aplicación pequeña y python ser un lenguaje interpretado no sea el mejor contexto,por que la fase build generalmente viene mas ligada a la creación de un artefacto que luego se pueda ejecutar.
 Por ejemplo un .war de java o un .exe para windows o un ./mi_prog
 (Se podría crear un .exe de esta aplicación pero es un jaleo, otro día)
-![Alt text](image-3.png)
+
+![Alt text](context/image-3.png)
 
 El tema de los uses:
 Por un lado se pueden crear uses o buscar uses por aquí.
@@ -36,10 +41,10 @@ Vale la cosa es que yo si me genero una pipeline podría querer probar mi aplica
 Entonces en este use concreto actions/setup-python@v2
 Lo que me estoy facilitando es la portabilidad, la versión de python que quiero y otras muchas cosas que todavía no acabo de entender de control de entorno.
 
-![Alt text](image-5.png)
+![Alt text](context/image-5.png)
 La versión con la que quiero tirar y homogenizar mis pruebas
 
-![Alt text](image-6.png)
+![Alt text](context/image-6.png)
 El resto nada, comandos necesarios ordenaditos on sus tags y por supuesto la ejecución de las pruebas.
 
 
