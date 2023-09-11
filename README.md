@@ -6,7 +6,7 @@ Código
 
 El código, es un código simple de unas pruebas unitarias donde se comprueba que el número factorial devuelto es correcto y que se controla el error de input.
 Factorial
-![Alt text](image.png)
+![Alt text](context/image.png)
 Pruebas
 ![Alt text](image-1.png)
 
