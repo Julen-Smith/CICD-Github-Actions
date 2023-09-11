@@ -54,7 +54,7 @@ Si vemos el último sin entrar en mucho detalle se ve que el Job ha corrido corr
 ![Alt text](context/image-8.png)
 En cambio si pusheo con un error de código diciendole que compruebe que el factorial de 5 es 5000
 Casca
-![Alt text](context/image.png)
+![Alt text](context/image-9.png)
 Dandonos una manera bastante eficiente de saber si la hemos cagado o el código cumple un criterio minimo
 sobre todo en pull request y commits antes de mergear o hacer cualquier modificación.
 
