@@ -9,11 +9,11 @@ Factorial
 
 ![Alt text](context/image.png)
 
-Pruebas
+## Pruebas Pruebas
 
 ![Alt text](context/image-1.png)
 
-CI
+# Parte CI
 En esta parte de integración continua lo único que vamos a generar es que cuando hagamos un push en una maquina ubuntu se lance nuestra clase de pruebas o cualquier script que controle la calidad del codigo (al menos ese es el fin).
 Quizá este sea no sea el mejor ejemplo, pero se podría que generar que se pase algún programa como Sonar o la norminette de 42 para el control de lineas, formateo etc...
 
@@ -53,10 +53,13 @@ En la pestaña actions se ve que he realizado varios pusheos ya mientras generab
 Si vemos el último sin entrar en mucho detalle se ve que el Job ha corrido correctamente
 ![Alt text](context/image-8.png)
 En cambio si pusheo con un error de código diciendole que compruebe que el factorial de 5 es 5000
+Casca
+![Alt text](context/image.png)
+Dandonos una manera bastante eficiente de saber si la hemos cagado o el código cumple un criterio minimo
+sobre todo en pull request y commits antes de mergear o hacer cualquier modificación.
 
 
-
-## CD
+# Parte CD
 
 Terminar y pushear la parte cd , dejo pendiente.
 

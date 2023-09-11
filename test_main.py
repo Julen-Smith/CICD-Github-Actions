@@ -7,7 +7,7 @@ class TestFactorial(unittest.TestCase):
         self.assertEqual(factorial(0), 1)
 
     def test_factorial_positive_number(self):
-        self.assertEqual(factorial(5), 5000)
+        self.assertEqual(factorial(5), 120)
     
     def test_factorial_negative_number(self):
         with self.assertRaises(ValueError):
