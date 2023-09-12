@@ -38,7 +38,7 @@ jobs:
       run: ssh-keyscan ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
     - name: Test SSH connection
-      run: ssh -o StrictHostKeyChecking=no -v ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "echo 'SSH connection successful'"
+      run: ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "echo 'SSH connection successful'"
 
     - name: Deploy to server
       run: |
