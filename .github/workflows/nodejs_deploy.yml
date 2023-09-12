@@ -21,11 +21,19 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
-    - name: Add SSH key to agent
+    - name: Process SSH Key
+      run: echo "${{ secrets.SERVER_SSH_KEY }}" | awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' > processed_key.pem
+      shell: bash
+
+    - name: Add Processed SSH Key to Agent
       run: |
         eval "$(ssh-agent -s)"
-        ssh-add - <<< "${{ secrets.SERVER_SSH_KEY }}"
-           
+        chmod 400 processed_key.pem
+        ssh-add processed_key.pem
+
+    - name: Diagnostic SSH into EC2
+      run: ssh -v ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "echo 'SSH connection successful'"
+
     - name: Deploy to EC2
       run: |
         mkdir -p ~/.ssh
