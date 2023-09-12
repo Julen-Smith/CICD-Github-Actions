@@ -64,7 +64,9 @@ sobre todo en pull request y commits antes de mergear o hacer cualquier modifica
 
 
 # Parte CD
-![Alt text](context/image-11.png)
+
+![Alt text](context/image-12.png)
+
 
 ## Código
 Lo primero que he hecho ha sido generarme una nueva rama [Aws_Deploy] con un código default node.js que me permitirá imprimir un Hola mundo utilizando el puerto 3000
@@ -141,7 +143,7 @@ Y los steps a utilizar
 
 En esta parte he utilizado github secrets para las claves ssh como la ip publica
 
-![Alt text](context/image-12.png)
+![Alt text](context/image-11.png)
 
 
 Volcado de datos de la pem que suelen dar para la conexion ssh
