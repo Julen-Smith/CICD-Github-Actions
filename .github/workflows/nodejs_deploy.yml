@@ -43,17 +43,20 @@ jobs:
     - name: Deploy to server
       run: |
         ssh -i key.pem ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "\
-        sudo apt update -y && \
-        sudo apt install -y git nodejs npm && \
+        sudo apt-get update && \
+        sudo apt-get clean && \
+        sudo dpkg --configure -a && \
+        sudo apt-get -f install && \
+        sudo apt-get install -y git nodejs npm || exit 1; \
         if [ ! -d \".git\" ]; then \
-          git clone https://github.com/Julen-Smith/CICD-Github-Actions . ; \
+          git clone https://github.com/Julen-Smith/CICD-Github-Actions . || exit 1; \
         else \
-          git pull ; \
+          git pull || exit 1; \
         fi && \
-        git checkout Aws_deploy && \
-        npm install && \
-        sudo npm install -g pm2 && \
-        pm2 restart all || pm2 start app.js"
+        git checkout Aws_deploy || exit 1 && \
+        npm install || exit 1 && \
+        sudo npm install -g pm2 || exit 1 && \
+        pm2 restart all || pm2 start app.js || exit 1"
   
 
   
