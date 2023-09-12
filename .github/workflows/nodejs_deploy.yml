@@ -18,8 +18,14 @@ jobs:
       with:
         node-version: '14'
 
-    - name: Install Dependencies
+    - name: Install dependencies
       run: npm install
+
+    - name: Build
+      run: npm run build
+
+    - name: Create .ssh directory
+      run: mkdir -p ~/.ssh
 
     - name: Add SSH key to agent
       run: |
@@ -28,19 +34,15 @@ jobs:
         eval "$(ssh-agent -s)"
         ssh-add key.pem
 
-    - name: Diagnostic SSH into EC2
-      run: ssh -v ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "echo 'SSH connection successful'"
+    - name: Add server to known hosts
+      run: ssh-keyscan ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
-    - name: Deploy to EC2
+    - name: Test SSH connection
+      run: ssh -o StrictHostKeyChecking=no -v ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "echo 'SSH connection successful'"
+
+    - name: Deploy to server
       run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
         ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "\
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash && \
-        export NVM_DIR=~/.nvm && \
-        [ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\" && \
-        nvm install node && \
-        npm install -g pm2 && \
         cd /path/to/app && \
         git pull && \
         npm install && \
