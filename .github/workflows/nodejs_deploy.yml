@@ -43,6 +43,12 @@ jobs:
     - name: Deploy to server
       run: |
         ssh -i key.pem ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "\
-        git pull && \
+        sudo apt update && \
+        sudo apt install -y git && \
+        sudo npm install -g pm2 && \
+        git clone https://github.com/Julen-Smith/CICD-Github-Actions app || (cd app && git pull) && \
+        cd app && \
+        git checkout Aws_deploy && \
+        git pull origin Aws_deploy && \
         npm install && \
         pm2 restart all || pm2 start app.js"
