@@ -72,7 +72,7 @@ sobre todo en pull request y commits antes de mergear o hacer cualquier modifica
 
 Lo primero que he hecho ha sido generarme una nueva rama [Aws_Deploy] con un código default node.js que me permitirá imprimir un Hola mundo utilizando el puerto 3000
 
-
+```
 const http = require('http');
 
 const hostname = '0.0.0.0';
@@ -87,11 +87,11 @@ const server = http.createServer((req, res) => {
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
-
+```
 
 Con su package Json
 
-
+```
 {
     "name": "mi-aplicacion",
     "version": "1.0.0",
@@ -114,21 +114,21 @@ Con su package Json
       "nodemon": "^2.0.7"
     }
   }
-
+```
 
 ### nodejs_deploy.yml
 
 Las branches en las que voy a trabajar
-
+```
 name: Deploy Node.js App to EC2
 
 on:
   push:
     branches:
       - Aws_deploy
-
+```
 Y los steps a utilizar
-
+```
    - name: Checkout code
       uses: actions/checkout@v2
 
@@ -145,22 +145,23 @@ Y los steps a utilizar
 
     - name: Create .ssh directory
       run: mkdir -p ~/.ssh
-
+```
 En esta parte he utilizado github secrets para las claves ssh como la ip publica
 
 ![Alt text](context/image-11.png)
 
 
 Volcado de datos de la pem que suelen dar para la conexion ssh
+```
     - name: Add SSH key to agent
       run: |
         echo "${{ secrets.SERVER_SSH_KEY }}" > key.pem
         chmod 400 key.pem
         eval "$(ssh-agent -s)"
         ssh-add key.pem
-
+```
 Y el deploy con alguna traza para ir viendo donde casca
-
+```
     - name: Deploy to server
       run: |
         ssh -i key.pem ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "\
@@ -182,8 +183,7 @@ Y el deploy con alguna traza para ir viendo donde casca
         npm install || exit 1 && \
         sudo npm install -g pm2 || exit 1 && \
         pm2 restart all || pm2 start app.js || exit 1"
-
-
+```
 
 Importante añadir también el puerto en el que voy a servir la conexión
 ![Alt text](context/image-13.png)
@@ -197,6 +197,9 @@ Despues de varios fallos por configuraciones de node y versiones deprecadas (cul
 Success
 
 ![Alt text](context/image-15.png)
-Obteniendo que después de cada pusheo, la aplicacion se va a lanzar en la instancia EC2 automaticamente.
+
+
+## Obteniendo que después de cada pusheo, la aplicacion se va a lanzar en la instancia EC2 automaticamente.
+
 
 ![Alt text](context/image-12.png)
