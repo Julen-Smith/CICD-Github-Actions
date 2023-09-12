@@ -42,7 +42,7 @@ jobs:
 
     - name: Deploy to server
       run: |
-        ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "\
+        ssh -i key.pem ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "\
         cd /path/to/app && \
         git pull && \
         npm install && \
