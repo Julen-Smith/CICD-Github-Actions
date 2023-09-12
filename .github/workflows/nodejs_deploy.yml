@@ -27,7 +27,6 @@ jobs:
 
     - name: Add Processed SSH Key to Agent
       run: |
-        eval "$(ssh-agent -s)"
         chmod 400 key.pem
         ssh-add key.pem
 
