@@ -44,13 +44,15 @@ jobs:
       run: |
         ssh -i key.pem ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "\
         sudo apt update -y && \
-        sudo apt install -y git && \
-        curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
-        sudo apt install -y nodejs && \
-        git clone https://github.com/Julen-Smith/CICD-Github-Actions . && \
+        sudo apt install -y git nodejs npm && \
+        if [ ! -d \".git\" ]; then \
+          git clone https://github.com/Julen-Smith/CICD-Github-Actions . ; \
+        else \
+          git pull ; \
+        fi && \
         git checkout Aws_deploy && \
         npm install && \
-        sudo npm install pm2 -g && \
+        sudo npm install -g pm2 && \
         pm2 restart all || pm2 start app.js"
   
 
