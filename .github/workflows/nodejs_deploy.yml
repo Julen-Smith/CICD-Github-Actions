@@ -1,0 +1,40 @@
+name: Deploy Node.js App to EC2
+
+on:
+  push:
+    branches:
+      - Aws_deploy  
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Deploy to EC2
+      run: |
+        ssh-keyscan ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+        ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "\
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash && \
+        export NVM_DIR=~/.nvm && \
+        [ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\" && \
+        nvm install node && \
+        npm install -g pm2 && \
+        cd /path/to/app && \
+        git pull && \
+        npm install && \
+        pm2 restart all || pm2 start app.js"
+      env:
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      with:
+        ssh-key: ${{ secrets.SERVER_SSH_KEY }}

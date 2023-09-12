@@ -47,7 +47,7 @@ La versión con la que quiero tirar y homogenizar mis pruebas.
 
 ![Alt text](context/image-6.png)
 
-El resto nada, comandos necesarios ordenaditos on sus tags y por supuesto la ejecución de las pruebas.
+El resto nada, comandos necesarios ordenaditos con sus tags y por supuesto la ejecución de las pruebas.
 
 ## Resolución
 ### En la pestaña actions se ve que he realizado varios pusheos ya mientras generaba el readme
@@ -65,7 +65,7 @@ sobre todo en pull request y commits antes de mergear o hacer cualquier modifica
 
 # Parte CD
 
-Terminar y pushear la parte cd , dejo pendiente.
+Para la parte cd en la rama[Aws_deploy], voy a hacer un deploy de una aplicación simple de node.js en 2 maquinas de aws, por simular un caso real 
 
 
 
