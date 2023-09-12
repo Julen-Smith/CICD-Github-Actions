@@ -44,11 +44,15 @@ jobs:
       run: |
         ssh -i key.pem ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "\
         sudo apt update && \
-        sudo apt install -y git && \
+        sudo apt install -y git curl && \
+        curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
+        sudo apt-get install -y nodejs && \
         sudo npm install -g pm2 && \
-        git clone https://github.com/Julen-Smith/CICD-Github-Actions app || (cd app && git pull) && \
+        cd /path/to && \
+        if [ ! -d \"app\" ]; then git clone https://github.com/Julen-Smith/CICD-Github-Actions app; fi && \
         cd app && \
         git checkout Aws_deploy && \
         git pull origin Aws_deploy && \
         npm install && \
         pm2 restart all || pm2 start app.js"
+  
