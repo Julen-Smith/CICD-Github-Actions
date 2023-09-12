@@ -64,8 +64,132 @@ sobre todo en pull request y commits antes de mergear o hacer cualquier modifica
 
 
 # Parte CD
+![Alt text](context/image-11.png)
 
-Terminar y pushear la parte cd , dejo pendiente.
+## Código
+Lo primero que he hecho ha sido generarme una nueva rama [Aws_Deploy] con un código default node.js que me permitirá imprimir un Hola mundo utilizando el puerto 3000
+
+const http = require('http');
+
+const hostname = '0.0.0.0';
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hola, mundo!\n');
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+
+Con su package Json
+
+{
+    "name": "mi-aplicacion",
+    "version": "1.0.0",
+    "description": "Una aplicación de ejemplo",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js",
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "build": "echo 'Ejecutando el script de build'"
+    },
+    "keywords": [
+      "ejemplo"
+    ],
+    "author": "Julen Smith",
+    "license": "ISC",
+    "dependencies": {
+      "express": "^4.17.1"
+    },
+    "devDependencies": {
+      "nodemon": "^2.0.7"
+    }
+  }
+
+### nodejs_deploy.yml
+
+Las branches en las que voy a trabajar
+
+name: Deploy Node.js App to EC2
+
+on:
+  push:
+    branches:
+      - Aws_deploy
+
+Y los steps a utilizar
+
+   - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build
+      run: npm run build
+
+    - name: Create .ssh directory
+      run: mkdir -p ~/.ssh
+
+En esta parte he utilizado github secrets para las claves ssh como la ip publica
+
+![Alt text](context/image-12.png)
+
+
+Volcado de datos de la pem que suelen dar para la conexion ssh
+    - name: Add SSH key to agent
+      run: |
+        echo "${{ secrets.SERVER_SSH_KEY }}" > key.pem
+        chmod 400 key.pem
+        eval "$(ssh-agent -s)"
+        ssh-add key.pem
+
+Y el deploy con alguna traza para ir viendo donde casca
+
+    - name: Deploy to server
+      run: |
+        ssh -i key.pem ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "\
+        sudo apt-get update -y && \
+        sudo apt-get upgrade -y && \
+        sudo apt-get autoremove -y && \
+        sudo apt-get autoclean && \
+        sudo apt-get -f install && \
+        sudo dpkg --configure -a && \
+        sudo apt-get purge -y nodejs npm && \
+        curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
+        sudo apt-get install -y git nodejs || exit 1; \
+        cd ~ && \
+        if [ ! -d \"CICD-Github-Actions\" ]; then \
+          git clone https://github.com/Julen-Smith/CICD-Github-Actions.git || exit 1; \
+        fi && \
+        cd CICD-Github-Actions && \
+        git checkout Aws_deploy || exit 1 && \
+        npm install || exit 1 && \
+        sudo npm install -g pm2 || exit 1 && \
+        pm2 restart all || pm2 start app.js || exit 1"
 
 
 
+Importante añadir también el puerto en el que voy a servir la conexión
+![Alt text](context/image-13.png)
+
+
+
+Despues de varios fallos por configuraciones de node y versiones deprecadas (culpa mia (También es la primera vez con Github Actions por mucho que se parezca a Jenkins))
+
+![Alt text](context/image-14.png) 
+
+Success
+
+![Alt text](context/image-15.png)
+Obteniendo que después de cada pusheo, la aplicacion se va a lanzar en la instancia EC2 automaticamente.
+
+![Alt text](context/image-11.png)
