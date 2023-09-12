@@ -44,12 +44,15 @@ jobs:
       run: |
         ssh -i key.pem ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "\
         sudo apt-get update && \
-        sudo apt-get clean && \
-        sudo dpkg --configure -a && \
+        sudo apt-get upgrade -y && \
+        sudo apt-get autoremove -y && \
+        sudo apt-get autoclean && \
         sudo apt-get -f install && \
+        sudo dpkg --configure -a && \
         sudo apt-get install -y git nodejs npm || exit 1; \
+        cd /root && \
         if [ ! -d \".git\" ]; then \
-          git clone https://github.com/Julen-Smith/CICD-Github-Actions . || exit 1; \
+          git clone https://github.com/Julen-Smith/CICD-Github-Actions.git . || exit 1; \
         else \
           git pull || exit 1; \
         fi && \
