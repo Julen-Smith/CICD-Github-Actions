@@ -21,6 +21,11 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
+    - name: Add SSH key to agent
+      run: |
+        eval "$(ssh-agent -s)"
+        ssh-add - <<< "${{ secrets.SERVER_SSH_KEY }}"
+
     - name: Deploy to EC2
       run: |
         ssh-keyscan ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
@@ -34,7 +39,3 @@ jobs:
         git pull && \
         npm install && \
         pm2 restart all || pm2 start app.js"
-      env:
-        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      with:
-        ssh-key: ${{ secrets.SERVER_SSH_KEY }}
