@@ -69,7 +69,9 @@ sobre todo en pull request y commits antes de mergear o hacer cualquier modifica
 
 
 ## Código
+
 Lo primero que he hecho ha sido generarme una nueva rama [Aws_Deploy] con un código default node.js que me permitirá imprimir un Hola mundo utilizando el puerto 3000
+
 
 const http = require('http');
 
@@ -86,7 +88,9 @@ server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
 
+
 Con su package Json
+
 
 {
     "name": "mi-aplicacion",
@@ -110,6 +114,7 @@ Con su package Json
       "nodemon": "^2.0.7"
     }
   }
+
 
 ### nodejs_deploy.yml
 
