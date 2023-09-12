@@ -22,14 +22,14 @@ jobs:
       run: npm install
 
     - name: Process SSH Key
-      run: echo "${{ secrets.SERVER_SSH_KEY }}" | awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' > processed_key.pem
+      run: echo "${{ secrets.SERVER_SSH_KEY }}" | awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' > key.pem
       shell: bash
 
     - name: Add Processed SSH Key to Agent
       run: |
         eval "$(ssh-agent -s)"
-        chmod 400 processed_key.pem
-        ssh-add processed_key.pem
+        chmod 400 key.pem
+        ssh-add key.pem
 
     - name: Diagnostic SSH into EC2
       run: ssh -v ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "echo 'SSH connection successful'"
