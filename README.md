@@ -194,4 +194,4 @@ Success
 ![Alt text](context/image-15.png)
 Obteniendo que después de cada pusheo, la aplicacion se va a lanzar en la instancia EC2 automaticamente.
 
-![Alt text](context/image-11.png)
+![Alt text](context/image-12.png)
